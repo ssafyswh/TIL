@@ -25,9 +25,9 @@
 - git: **분산** 버전 관리 시스템
 
 - git의 영역
-    1. working directory
-    2. staging area
-    3. repository
+    - working directory
+    - staging area
+    - repository
 
 - git command
 
