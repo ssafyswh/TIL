@@ -55,3 +55,4 @@
     - commit 메시지 작성을 위한 편집기를 열지 않기 (자동 commit 진행) <br> ```git revert --no-edit <commit id>```
     - 
 
+※ git rm --cached와 git restore --staged의 차이? (교안과 다소 차이 있음)
