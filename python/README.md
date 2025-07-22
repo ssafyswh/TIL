@@ -51,7 +51,7 @@ print(my_list[::-1])  # [5, 'b', 3, 'a', 1]
 # 길이
 print(len(my_list))  # 5
 ```
-중첩 리스트(nested list): 다른 리스트를 값으로 가지는 리스트
+- 중첩 리스트(nested list): 다른 리스트를 값으로 가지는 리스트
 - 중첩 리스트에 접근하기: 인덱스를 연달아 사용하여 안쪽 리스트의 값에 접근할 수 있다.
 ```Python
 # 중첩된 리스트 접근
@@ -60,7 +60,7 @@ print(len(my_list))  # 5
 print(my_list[4][-1])  # !!!
 print(my_list[-1][1][0])  # w
 ```
-리스트의 가변성: 한번 생성된 리스트는 그 내용을 자유롭게 수정, 추가, 삭제할 수 있다. 문자열이 불변성(immutable)을 갖는 시퀀스인 것과 대조적이다.
+- 리스트의 가변성: 한번 생성된 리스트는 그 내용을 자유롭게 수정, 추가, 삭제할 수 있다. 문자열이 불변성(immutable)을 갖는 시퀀스인 것과 대조적이다.
 
 ```Python
 # 리스트는 가변
@@ -73,6 +73,23 @@ print(my_list)  # [1, 'two', 3, 4, 5]
 my_list = [1, 2, 3, 4, 5]
 my_list[2:4] = ['three', 'four']
 print(my_list)  # [1, 2, 'three', 'four', 5]
+```
+- 리스트의 활용법(메서드)
+```Python
+numbers = []
+
+numbers.append(3) # append: 가장 뒤에 데이터를 추가
+numbers.append(2)
+numbers.append(1)
+numbers.append(5)
+print(numbers) # [3, 2, 1, 5]
+print(numbers[0]) # 3
+print(numbers[-1]) # 5
+
+numbers.pop() # pop(): 맨 뒤의 데이터를 삭제
+print(numbers) # [3, 2, 1]
+numbers.pop(1) # 해당 인덱스에 위치한 데이터를 삭제
+print(numbers) # [3, 1]
 ```
 
 튜플(tuple): 여러개의 값을 순서대로 저장하는 변경이 불가능한 시퀀스 자료형
@@ -150,6 +167,11 @@ print(my_dict)  # {'apple': 12, 'list': [1, 2, 3], 'banana': 50}
 my_dict['apple'] = 100
 print(my_dict)  # {'apple': 100, 'list': [1, 2, 3], 'banana': 50}
 ```
+- 키의 존재 유무 검사
+```Python
+print(di.get(key)) # value를 출력
+print(di.get('없는 키')) # None을 출력
+```
 
 세트(set): 순서와 중복이 없는 변경 가능한 자료형
 - 중괄호 안에 값들을 쉼표로 구분하여 만든다.
@@ -169,6 +191,12 @@ print(my_set_1 - my_set_2)  # {1, 2}
 
 # 교집합
 print(my_set_1 & my_set_2)  # {3}
+
+# 대칭차집합
+print(my_set_1 ^ my_set_2) # {1, 2, 6, 9}
+
+# 부분집합 확인
+print(my_set_1 < my_set_2) # False
 ```
 ===
 그 외의 데이터 타입들(other types)
@@ -210,7 +238,7 @@ numbers = list(map(int, input().split()))
   - not in: in의 반대
 - 시퀀스형 연산자: 시퀀스 자료형에 특별한 의미로 사용되는 연산자
   - **+**: 결합 연산자
-  - **'*'**: 반복 연산자
+  - *: 반복 연산자
 ===
 단축 평가: 논리 연산에서 두번째 피연산자를 평가하지 않고 결과를 결정하는 동작, 필요한 계산만 하고 결과가 이미 정해졌다면 뒤에 있는 코드는 확인하지 않는다.
 - 파이썬의 참과 거짓
