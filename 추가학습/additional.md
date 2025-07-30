@@ -5,6 +5,7 @@
 class: 전체 구조를 저장할 무언가(설계도)
 객체: 실제 데이터를 저장한 무언가
 
+```Python
 class Smartphone:
 	# 초기화하는 함수
     # 매직 메서드: 언더바 2개로 감싸져 있는 매서드
@@ -15,6 +16,14 @@ class Smartphone:
 
 giryunPhone = Smartphone('wide5', '0원')
 beomseokPhone = Smartphone('galaxy 21', '100만원')
+```
+시나리오 -> class로 구현하기(0731 예정)
+
+클래스를 쓰는 이유: 중복된 코드를 줄이기 위해서 -> 효율성!
+
+클래스의 상속
+```class ClassOne(ClassZero)```
+: ClassZero라는 부모 클래스의 내용을 ClassOne이 상속!
 
 \* 파이썬이 __init__이라는 함수를 호출하도록 만들어 놨기 때문에 가능한 일! 
 
@@ -25,3 +34,6 @@ beomseokPhone = Smartphone('galaxy 21', '100만원')
   - 해시 충돌: 다른 key 값이 서로 같은 해시 값을 갖는 경우. 
   - 딕셔너리는 그럴 일 없다! 왜?
 버킷이 가득 찼을 경우 bucket size를 2배로 늘린다.
+
+
+
