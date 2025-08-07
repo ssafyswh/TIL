@@ -89,3 +89,9 @@ DAT(Direct Address Table)
 동적 프로그래밍(Dynamic Programming, DP): 한번한 계산을 반복하지 않기
 
 슬라이딩 윈도우
+
+이진 검색
+- 학습단계: binary search, lower bound, upper bound, parametric search
+
+
+비트 연산자
