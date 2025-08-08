@@ -95,3 +95,12 @@ DAT(Direct Address Table)
 
 
 비트 연산자
+
+전치 행렬 만들기
+```python
+# 2차원 배열 arr에 대해서
+for x in range(X):
+  for y in range (Y):
+    if x < y:
+      arr[x][y], arr[y][x] = arr[y][x], arr[x][y]
+```
