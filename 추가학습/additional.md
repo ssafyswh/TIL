@@ -104,3 +104,29 @@ for x in range(X):
     if x < y:
       arr[x][y], arr[y][x] = arr[y][x], arr[x][y]
 ```
+
+그래프: 데이터 간의 연결관계를 표현한 자료구조
+그래프의 활용 방법
+- 완전탐색
+- DFS(깊이 우선, 재귀호출 또는 stack 사용), BFS(너비 우선, queue 사용)
+  
+재귀호출 vs 스택
+- 실무에서는 재귀호출을 가급적 쓰지 않는 방향으로 가닥을 잡아야 한다.
+- 재귀호출
+  - 장점: 코드가 짧다.(구현이 쉽다.)
+  - 단점: 느리다.(반복문에 비해 메모리, 시간 효율이 낮다.)
+- 스택
+
+재귀호출은 top-down, 반복문은 bottom-up
+
+연결 리스트? - 알아만 두기
+- 조회가 느리다(인덱스가 클수록)
+
+deque
+```Python
+from collections import deque
+dq = deque()
+dq.append(2)
+dq.append(3)
+dq.appendleft(1)
+```
