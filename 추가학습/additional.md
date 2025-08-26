@@ -144,3 +144,21 @@ permutaion, collection 모두 생성 가능
   - 단점: 연결여부를 확인하는 것이 느리다.
 
 웹.....
+
+마진 상쇄
+
+1. display
+  - block / inline / inline-block
+
+2. position
+  - static : 좌상단 기준으로 그리자
+  - relative
+  - absolute
+  - fixed
+  - sticky
+
+3. flexbox
+  - 정렬
+
+엥간하면 고정 사이즈(width, height)는 쓰지 않기
+-> 그래서 사용하는것이 flex, grow, shrink
