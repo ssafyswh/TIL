@@ -162,3 +162,13 @@ permutaion, collection 모두 생성 가능
 
 엥간하면 고정 사이즈(width, height)는 쓰지 않기
 -> 그래서 사용하는것이 flex, grow, shrink
+
+sementic tag
+- nav
+- header
+- article: 독립적 구역
+- section: 여러개의 구역중 하나
+- aside
+- main
+- form
+- footer
