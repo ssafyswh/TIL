@@ -261,4 +261,79 @@ HTML의 구조
         - 같은 부모 내에서만 z-index값을 비교하고, 값이 같으면 html 문서 순서대로 쌓인다.
         - 자식의 z-index가 아무리 높아도 부모보다 위로 올라갈 수 없다.
   - Bootstrap: CSS 프론트렌트 프레임워크(toolkit). 미리 만들어진 다양한 디자인 요소들을 제공하여 웹사이트를 빠르고 쉽게 개발할수 있도록 한다.
-  - CDN(Content Delivery Network): 서버와 사용자 사이의 물리적인 거리를 줄여 콘첸츠 로딩에 소요되는 시간을 최소화하는 방식. 지리적으로 사용자와 가까운  CDN 서버에 콘텐츠를 저장해서 사용자에게 전달한다.
+    - CDN(Content Delivery Network): 서버와 사용자 사이의 물리적인 거리를 줄여 콘첸츠 로딩에 소요되는 시간을 최소화하는 방식. 지리적으로 사용자와 가까운  CDN 서버에 콘텐츠를 저장해서 사용자에게 전달한다.
+    - 기본 사용법: Bootstrap에는 특정한 규칙이 있는 클래스 이름으로 스타일 및 레이아웃이 미리 작성되어 있다.
+      - 예시(spacing을 표현하는 방법: {property}{sides}-{size})
+        - property: margin 또는 padding
+          - m, p
+        - sides: 방향(top, bottom, left, right, (top, bottom), (left, right), 4 sides)
+          - t, b, s, e, y, x, blank
+        - size: spacing의 상대적 너비
+          - 1 = 0.25 rem = 4px
+          - (0, 0 rem, 0px), (2, 0.5 rem, 8px), (3, 1 rem, 16px), (4, 1.5 rem, 24px), (5, 3 rem, 48px)
+          - auto
+        ```html
+        <p class="mt-5">Hello, world!</p>
+        ```
+    - Reset CSS: 모든 html 요소 스타일(element, table, lise 등)을 일관된 기준으로 재설정하는 간결하고 압축된 규칙 시트
+      - 모든 브라우저는 각자의 user agent styleheet를 갖고 있고 이것이 브라우저마다 다르기 때문에 모든 브라우저에서 웹사이트가 동일하게 보이게 하기 위해 같은 스타일 상태로 만드는 과정이다.
+      - Normalize CSS: Reset CSS 방법 중 대표적인 방법으로 웹 표준 기준으로 브라우저 중 하나가 불일치한다면 차이가 있는 브라우저를 수정하는 방법이다.
+      - bootstrap의 경우 bootstrap-reboot.css하는 파일명으로 normalize.css를 자체적으로 커스텀해서 사용하고 있다.
+    - Typography
+      - display headings ```class="display-1~6```: 기존 headings보다 더 눈에 띄는 제목이 필요할 경우 사용한다.
+      - inline text elements
+        - 하이라이트 ```<mark></mark>```
+        - 굵은 취소선 ```<del></del>```
+        - 취소선 ```<s></s>```
+        - 밑줄 ```<ins></ins>```
+        - 밑줄2 ```<u></u>```
+        - small, strong, em, ... etc
+      - lists
+    - Colors
+      - bootstrap color system: bootstrap이 지정하고 제공하는 색상 시스템으로 일관성 있는 의미론적 관점의 색상을 적용할 수 있게 해준다.
+    - Bootstrap Component: bootstrap에서 제공하는 ui 관련 요소. 일관된 디자인을 제공하여 웹사이트의 구성 요소를 구축하는데 유용하게 활용할 수 있다.
+    - 참조: CDN 없이 bootstrap 사용하기
+      - 1. bootstrap 코드 파일 다운로드 (https://getbootstrap.com/docs/5.3/getting-started/download/)
+      - 2. bootstrap.css와 bootstrap.bundle.js만 선택
+      - 3. css 파일은 html head 태그에 가져와서 사용
+      - 4. js 파일은 html body 태그에 가져와서 사용
+- Semantic web: 웹데이터를 의미론적으로 구조화된 형태로 표현하는 방식으로 외형보다는 요소 자체의 의미에 집중하는 것에 가깝다.
+  - HTML Semantic Element: 기본적인 모양과 기능 이외의 의미를 가지는 HTML 요소
+    - header: 소개 및 탐색에 도움을 주는 콘텐츠
+    - nav: 현재 페이지 내, 또는 다른 페이지로의 링크를 보여주는 구획
+    - main: 문서의 주요 콘텐츠
+    - article: 독립적으로 구분해 배포하거나, 배포될 수 있는 구성의 콘텐츠 구획
+    - section: 문서의 독립적인 구획. 더 적합한 요소가 없을 때 사용한다.
+    - aside: 문서의 주요 내용과 간접적으로만 연관된 부분
+    - footer: 가장 가까운 조상 구획(main, article 등)의 작성자, 저작권 정보, 관련 문서
+  - CSS 방법론: CSS를 효율적이고 유지보수가 용이하게 작성하기 위한 일련의 가이드라인
+    - OOCSS(Object-Oriented CSS): 객체 지향적 접근법을 적용하여 CSS를 구성하는 방법론
+      - 1. 구조와 스킨의 분리함으로써 가독성을 높인다.        
+      - 2. 컨테이너와 콘텐츠의 분리
+        - 객체에 직접 적용하는 대신 객체를 둘러싸는 컨테이너에 스타일을 적용한다.
+        - 스타일을 정의할때 위치에 의존적인 스타일을 사용하지 않도록 한다.
+        - 콘텐츠를 다른 컨테이너로 이동시키거나 재배치할 때 스타일이 깨지는 것을 방지한다.
+- 반응형 웹 디자인(Responsive Web Design): 디바이스 종류나 화면 크기에 상관없이, 어디서든 일관된 레이아웃 및 사용자 경험을 제공하는 디자인 기술
+  - Bootstrap Grid System: 웹 페이지의 레이아웃을 조정하는 데 사용되는 12개의 column과 6개의 breakpoint로 구성된 시스템
+    - 구조
+      - container: column을 담고 있는 공간
+      - column: 실제 콘텐츠를 포함하는 부분
+        - 1개의 row 안에 12개의 column 영역이 구성된다.
+        - 기본: ```class:col-n```으로 n개의 column을 할당. ```class:col```로 균등 분배 가능.
+        - 중첩(nesting): row 안에 row를 설정 가능.
+        - 상쇄(offset): ```class: col-n offset-m```으로 m개의 column을 생략 가능.
+      - gutter: column 간의 여백 영역(상하좌우)
+        - x축은 padding, y축은 margin을 여백 생성
+        - padding을 사용 할 때, 실제 컬럼 간의 좌우 간격이 변하는 것이 아닌 content의 너비가 변하는
+      - grid system breakpoints: 웹페이지를 다양한 화면 크기에서 적절하게 배치하기 위한 분기점. 화면 너비에 따하 6개의 분기점(xs,sm,md,lg,xl,xxl)이 제공된다.
+        - 기본값: (xs < 576px <= sm < 768px <= md < 992px <= lg < 1200px <= xl < 1400px <= xxl> )
+        - 각 breakpoints 마다 설정된 최대 너비값 **이상**으로 화면이 커지면 grid system 동작이 변경된다.
+        - ```<div class="col-size-n">```: 화면 크기가 size 이상일경우 col-n을 할당
+        - ```<div class="offset-size-m">```: offset도 column과 마찬가지로 사이즈별 할당이 가능하다.
+- 사용자(User)
+  - UX(User Experience): 제품이나 서비스를 사용하는 사람들이 느끼는 전체적인 경험과 만족도를 개선하고 최적화하기 위한 디자인과 개발 분야
+    - 사람들의 마음과 생각을 이해하고 정리해서 제품에 녹여내는 과정
+    - 유저 리서치, 데이터 설계 및 정제, 유저 시나리오, 프로토타입 설계
+  - UI(User Interface): 서비스와 사용자 간의 상호작용을 가능하게 하는 디자인 요소들을 개발하고 구현하는 분야
+    - 예쁜 디자인보다는 사용자가 더 쉽게 편리하게 사용할 수 있도록 고려하기
+    - 디자인 시스템, 중간 산출물, 프로토타입 등의 관리가 필요하다.
