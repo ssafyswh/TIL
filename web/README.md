@@ -516,3 +516,4 @@ django template language(DTL): tempalte에서 조건, 반복, 변수 등의 프�
   - URL 이름 공간
     - 서로 다른 앱의 url 이름이 같을 경우 이름에 key 를 붙인다.
     - urls.py에 app_name 변수를 설정해야 한다.
+- form tag vs routing
