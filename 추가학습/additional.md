@@ -173,3 +173,16 @@ sementic tag
 - form
 - footer
 
+DB: 그냥 데이터 덩어리
+DBMS(database management system): 데이터 덩어리를 관리(CRUD - create, read, update, delete)하기 위한 시스템 - 편하게, 빠르게
+메타데이터(스키마?)
+
+데이터베이스를 쓰는 이유 - 여러개의 테이블을 한번에 같이 쓰기 위해서(어렵다)
+
+settings.py 의 TEMPLATES는 기본적으로 app/templates 폴더를 검색한다
+그 외의 폴더도 기본 검색대상에 포함하기 위해서는 리스트에 BASE_DIR / '폴더명' 을 추가해야 한다.
+
+ORM 문법 몇개
+특정 테이블의 모든 데이터 조회
+- (table_name).objects.all(): QuerySet이라는 type의 자료형을 반환
+특정 테이블의 특정 데이터만 조회

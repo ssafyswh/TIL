@@ -517,3 +517,64 @@ django template language(DTL): tempalte에서 조건, 반복, 변수 등의 프�
     - 서로 다른 앱의 url 이름이 같을 경우 이름에 key 를 붙인다.
     - urls.py에 app_name 변수를 설정해야 한다.
 - form tag vs routing
+
+
+Model: 데이터베이스와 파이썬 클래스(객체)로 추상화된 형태로 상호작용
+- django의 강력한 기능: 개발자가 데이터베이스에 대한 깊은 지식 없이도 쉽게 데이터 관리가 가능하다.
+- 유지보수 및 확장성 증대: 데이터베이스 변경시에도 코드 수정 최소화, 재사용 가능한 데이터 모델을 통해 개발 효율성을 향상시킨다.
+- Model Class: 데이터베이스의 테이블을 정의하고 데이터를 조작할 수 있는 기능들을 제공한다.
+```python
+class Article(models.Model):
+    title = models.CharField(max_length=10)
+    content = models.TextField()
+```
+작성한 모델 클래스는 DB에 아래와 같은 테이블 구조를 만든다. (django의 편리함)
+| id | title | content |
+|-----|-----|-----|
+| i1  | t1  | c1  |
+| i2  | t2  | c2  |
+| i3  | t3  | c3  |
+```python
+class Article(models.Model)
+```
+: django.db.models 모듈의 Model이라는 부모 클래스를 상속받는다.
+  - 모델 관련된 모든 코드가 이미 작성된 클래스
+
+```python
+    title = models.CharField(max_length=10)
+    content = models.TextField()
+```
+클래스 변수명: 테이블의 각 필드(열, column)의 이름
+- Model Field: 데이터의 유형과 제약조건을 정의한다.
+  - field types(필드 유형): 데이터베이스에 저장될 데이터의 타입을 정의. field type은 models 모듈의 클래스로 정의되어 있다.
+    - 문자열 필드
+      - CharField(): 제한된 길이의 문자열을 저장. max_length로 최대 길이를 결정 가능하다.
+      - TextField(): 길이 제한이 없는 대용량 텍스트를 저장.(시스템에 따라 허용 상한이 달라진다.)
+    - 숫자 필드: IntegerField, FloatField
+    - 날짜/시간 필드: DateField, TimeField, DateTimeField
+    - 파일 관련 필드: FileField, ImageField
+  - field options(필드 옵션): 필드의 동작과 제약 조건을 정의
+    - 제약 조건(constraint): 특정 규칙을강제하기 위해 테이블의 열이나 행에 적용되는 규칙이나 제한사항
+      - null: 데이터베이스에서 NULL 값을 허용할지 여부를 결정(기본: False)
+      - blank: form에서 빈 값을 허용할지 여부를 결정(기본: False)
+      - default: 필드의 기본값을 설정
+- Migrations: model 클래스의 변경사항(필드 생성, 수정/삭제 등)을 DB에 최종 반영하는 방법.
+  - 모든 변경 사랑을 코드로 관리하여 협업 시 모델 변경 내역에 대한 추적과 공유에 용이하다.
+  - 핵심 명령어
+    - python manage.py makemigrations: model class를 기반으로 최종 설계도(migration)를 작성
+    - pytonn manage.py migrate: 최종 설계도를 DB에 전달하여 반영
+- 추가 migrations
+  - 이미 기존 테이블이 존재하는 경우, 새 필드를 추가할때 문제가 발생할 수 있다.
+    - 기존에 레코드(행)가 존재하는 테이블에 새로운 필드를 추가하면 어떤 값으로 채울지 결정해야 한다.
+    - django의 makemigrations 실행 시 기본값 설정을 요구하는 프롬프트가 표시된다.
+    - 과정
+      - 1. 새로운 필드(model class) 작성
+      - 2. 새로운 필드 추가 후 makemigrations 명령어 입력
+      - 3. 추가하는 필드의 기본값을 입력. django가 제안하는 기본값을 사용하는 것을 권장
+      - 4. mirations 과정 종료 후 새로운 migration 파일이 생성됨을 확인
+        - 설계도를 쌓아가는 방식으로 추후 문제가 발생할 시 복구나 롤백할수 있도록 함 (like git commit)
+      - 5. migrate 반영
+Admin site
+- 관리자 인터페이스(Automatic admin interface): django가 자동으로 제공하는 관리자 인터페이스
+  - 주요 기능: 데이터베이스 모델의 CRUD (생성, 읽기, 업데이트, 삭제) 작업을 간편하게 수행 가능하다.
+  - 
