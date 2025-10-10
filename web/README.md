@@ -677,3 +677,14 @@ ORM(Object-Relational-Mapping): 객체 지향 프로그래밍 언어의 객체�
     - 솔트(salt)
     - 무차별 대입 공격(Brute-force attack)
     - 키 스트레칭(key stretching)
+
+- 정적 파일(Static files): 서버 측에서 변경되지 않고 고정적으로 제공되는 파일
+  - 웹 서버가 제공하는 가장 기본적인 자원
+  - 웹 서버는 요청 받은 url으 보고, 서버의 특정 폴더에 저장된 css, js, 이미지 같은 정적 파일을 찾아 제공한다. 즉, 정적 파일이 사용자에게 보이기 위해서는 그 파일에 접근할 수 있는 고유 주소(url)가 반드시 필요하다.
+  - static file 경로의 종류
+    - 기본 경로: app폴더/static/
+      - static file의 경로는 DTL의 static tag를 사용해야 하며, 이는 built-in tag가 아니기 때문에 load tag를 통해 static tag를 import해야 사용할 수 있다. (단, extends tag보다는 아래에서 선언해야 한다.)
+    - 추가 경로: STATICFILES_DIRS에 문자열로 추가 경로를 설정
+
+- 미디어 파일(Media files): 사용자가 웹사이트를 통해 직접 업로드하는 **동적** 파일
+  - ImageField(): 이미지 파일을 업로드하기 위해 사용하는 django 모델 필드. 이미지 파일 자체를 데이터베이스에 저장하는 것이 아니라 upload_to 경로를 기준으로 한 이미지 파일의 경로(문자열)만 저장되고, 실제 파일은 서버의 특정 폴더(MEDIA_ROOT)에 저장한다.
