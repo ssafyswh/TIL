@@ -532,12 +532,134 @@ Langchain
 
   - 연산과 복잡도
     - 고정소수점 수 체계의 연산
+      - 상한초과(overflow): 10011(2) = 19(10) = 3(10), 자리올림 출력(carry out) 
+        - 부호가 없을 경우: 신호의 유/무를 통해 구분한다.
+        - 부호가 있을 경우: 부호 비트의 변화를 바탕으로 판단한다. -> 덧셈으로 뺄셈을 수행할 수 있다.
+      - 복잡도: 덧셈, 뺄셈 << 곱셈 << 나눗셈 (경향성 적으로)
     - 부동소수점 수 체계의 연산
-
-
+      - 덧셈/뺄셈: 가수의 연산 전에 지수를 동일하게 만든다. (생각보다 복잡하다?)
+      - 곱셈 / 나눗셈
+        - 부호: 부호가 같다면 +, 다르다면 -
+        - 지수: 두 지수의 합/차
+        - 가수: 고정소수점 곱셈/나눗셈과 같이 연산
+      - 복잡도: 곱셈 < 덧셈~뺄셈 << 나눗셈
+- 모델 경량화(Model Compression)
+  - 양자화(Quantization): 연산/메모리 부하를 줄이는 가장 직관적인 방법
+    - clipping range에 따른 scaling factor를 정하는 것이 가장 첫 단계
+    - 효율 개선을 위해 하드웨어/가속기 지원이 필요한 경우도 있다.
+    - QAT vs PTQ
+      - QAT(Quantization-Aware Training): 학습 단계에서 양자화를 함께 수행(학습 데이터 필요). 학습 복잡도가 엄청나게 상승한다.
+      - PTQ(Post-Training Quantizaiton): 사전학습된 모델을 바탕으로 양자화를 수행. 적절한 calibration 데이터를 사용하여 경량화 효율을 높일 수 있다.
+    - weight-activation vs weight-only
+    - symmetric vs asymmetric
+    - integer vs floating-point
+  - 가지치기: 불필요한 weight를 제거
+  - 지식 증류(knowledge distillation)
+    - 작은 모델의 학습에 상대적으로 크고 똑똑한 모델을 사용하는 것
+- LoRA/QLoRA
+  - 파인튜닝: 원본 모델의 크기를 줄이는 과정. 일부/전체 학습 데이터를 바탕으로 떨어진 정확도(acuuracy)를 복원하기 위한 과정.
+    - 모델서비스 관점에서의 경우, 강한 원본 모델(LLM)을 바탕으로 특정 도메인에 특화시키고자 할때, 원본 모델을 '튜닝'
+    - 파라미터 효율적-파인 튜닝(Parameter Efficient Fine Tuning, PEFT): LLM을 도메인 특화시키는 과정의 복잡도 개선 
+      - adapt layer: 입력원본 모델 내부에 새로운 layer를 추가. 목표로하는 특화 데이터를 활용하여 adapt layer만 학습
+      - prompt tuning: 입력 임베딩 앞/중간에 학습 가능한 가짜 토큰(pseudo-token)을 추가
+    - LoRA(Low-Rank Adaption): 특정 weight matrix(base weight)에 low-rank update를 추가. 원본 weight를 고정하고 추가되는 low-rank weight만 학습하여 높은 표현력과 함께 adapt layer보다 훨씬 적은 추가 weight를 갖는다.
+    - QLoRA(Quantized Low-Rank Adaption): 경량화 + LoRA
 ---
 AI agent
 
+## **1. AI Agent의 개념**
+
+AI Agent는 환경(Environment)으로부터 입력을 받아 행동(Action)을 수행하며, 목표를 달성하기 위해 지속적으로 학습하고 판단하는 시스템이다.
+
+* Agent: 목표 달성을 위해 자율적으로 행동하는 존재
+* Environment: Agent가 상호작용하는 외부 세계
+
+AI Agent는 인식(Perception), 학습(Learning), 추론(Reasoning), 행동(Action)으로 구성된다.
 
 ---
-가속기 구동을 위한 100% 정수연산 양자화
+
+## **2. AI Agent의 구성 요소**
+
+* Sensor: 환경의 상태를 감지하는 입력 장치 (예: 카메라, 마이크 등)
+* Actuator: Agent의 결정을 환경에 반영하는 장치 (예: 로봇 팔, 스피커 등)
+* Percept: 센서로부터 받은 환경 정보
+* Action: Agent가 수행하는 결과물
+* Performance Measure: Agent의 행동이 얼마나 잘 수행되었는지를 평가하는 기준
+
+---
+
+## **3. Agent의 구조**
+
+1. 단순 반응형 Agent (Reflex Agent)
+
+   * 현재의 상태만 고려하여 즉각적인 반응을 보이는 Agent
+   * 규칙 기반으로 작동 (“if condition → then action”)
+   * 예: 온도 감지 후 냉방기를 자동 제어
+
+2. 모델 기반 Agent (Model-based Agent)
+
+   * 환경의 내부 모델을 보유하여 과거 정보를 이용
+   * 환경이 완전하지 않거나 동적인 경우에 유리
+
+3. 목표 기반 Agent (Goal-based Agent)
+
+   * 특정 목표(goal)를 달성하기 위한 행동을 선택
+   * 계획(Planning) 기능을 포함
+
+4. 효용 기반 Agent (Utility-based Agent)
+
+   * 여러 가능한 행동 중 효용(Utility)이 가장 높은 행동을 선택
+   * 목표 달성보다 최적화(Optimization)를 지향
+
+5. 학습형 Agent (Learning Agent)
+
+   * 과거의 경험을 통해 행동 전략을 개선
+   * 강화학습(Reward 기반)과 밀접한 관계
+
+---
+
+## **4. AI Agent의 유형**
+
+* Reactive Agent: 즉각적인 반응 중심의 Agent
+  → 예: 온도 조절 시스템
+* Deliberative Agent: 환경 모델과 계획에 기반하여 작동
+  → 예: 자율주행 자동차
+* Hybrid Agent: 반응형과 계획형을 결합
+  → 예: 지능형 로봇
+* Collaborative Agent: 여러 Agent가 협력하여 목표 달성
+  → 예: 멀티 로봇 시스템
+* Interface Agent: 사용자의 행동 패턴을 학습하여 보조
+  → 예: Siri, Google Assistant
+
+---
+
+## **5. AI Agent의 학습 방식**
+
+* Supervised Learning: 입력과 정답(Label)을 함께 학습
+  → 예: 이미지 분류
+* Unsupervised Learning: 데이터의 숨은 구조를 학습
+  → 예: 클러스터링
+* Reinforcement Learning: 보상 기반으로 최적 정책을 학습
+  → 예: AlphaGo, 자율주행
+
+---
+
+## **6. Agent 환경의 속성 (Environment Properties)**
+
+* Observable / Partially Observable: 모든 상태를 관찰 가능한가 여부
+* Deterministic / Stochastic: 행동 결과가 예측 가능한가 여부
+* Episodic / Sequential: 개별 사건이 독립적인가 여부
+* Static / Dynamic: 환경이 변하는가 여부
+* Discrete / Continuous: 상태 및 행동이 이산적 또는 연속적인가
+* Single Agent / Multi-Agent: 하나의 Agent인가 다수인가
+
+---
+
+## **7. AI Agent의 응용 분야**
+
+* 자율주행 시스템 (Autonomous Vehicles): 환경 인식, 경로 계획, 제어 실행
+* 지능형 비서 (Intelligent Assistant): 대화 기반 상호작용 (예: ChatGPT, Siri)
+* 로보틱스 (Robotics): 작업 계획, 센서 피드백, 행동 제어
+* 게임 인공지능 (Game AI): 전략적 판단 및 강화학습 기반 플레이
+* 산업 자동화 (Industrial Automation): 공정 최적화 및 예측 유지보수
+
