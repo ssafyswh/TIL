@@ -1,0 +1,112 @@
+# DB
+
+데이터베이스: 체계적으로 정리된 데이터의 모음
+- 데이터: 저장이나 처리를 위해 변환된 정보
+- 역할: CRUD(create, read, updae, delete)
+- 관계형 데이터베이스(relational database): 데이터 간에 관계(논리적 연결)가 있는 데이터 항목들의 모음. 서로 관련된 데이터 포인터를 저장하고 이에 대한 액세스를 제공한다.
+  - 키워드
+    - table(relation): 데이터를 기록하는 곳
+    - field(column, attribute): 각 필드에는 고유한 데이터 형식이 지정된다.
+    - record(row, tuple): 각 레코드에는 구체적인 데이터 값이 저장된다.
+    - database(schema): 테이블의 집합
+    - 기본 키(primary key, pk): 각 데이터에 고유한 식별 값을 부여, 레코드의 식별자
+    - 외래 키(foreign key, fk): 다른 테이블의 pk를 참조, 테이블 간 관계를 형성
+- DBMS(database management system): 데이터베이스를 관리하는 소프트웨어
+- RDBMS(relational database management system): 관계형 데이터베이스 관리 소프트웨어
+  - SQLite: 경량의 오픈 소스 데이터베이스 관리 시스템. 설치 없이 가볍게 실행이 가능해 모바일 앱이나 소규모 프로그램에 적합하다. 컴퓨터나 모바일 기기에 내장되어 간단하고 효율적인 데이터 저장 및 관리를 제공한다.
+SQL(Structure Query Language): 테이블의 형태로 구조화된 관계형 데이터베이스에게 요청을 질의하기 위한 언어.
+- SQL syntax
+  - SQL 키워드는 대소문자를 구분하지 않는다. (단, 대문자로 작성하는 것을 권장한다.)
+  - 각 SQL statements 끝에는 세미콜론으로 구분한다.
+- SQL statements: SQL을 구성하는 가장 기본적인 코드블록
+  - DDL(data definition language): 데이터의 기본 구조 및 형식 변경(CREATE, DROP, ALTER)
+  - DQL(data query language): 데이터 검색(SELECT)
+  - DML(data manipulation language): 데이터 조작(INSERT, UPDATE, DELETE)
+  - DCL(data control language): 데이터 및 작업에 대한 사용자 권한 제어(COMMIT, ROLLBACK, GRANT, REVOKE)
+- DQL syntax
+  - SELECT: SELECT 키워드 이후 데이터를 선택하려는 필드를 하나 이상 지정, FROM 키워드 이후 데이터를 선택하려는 테이블의 이름을 지정. '*'를 사용하여 모든 필드를 지정할 수 있다.
+  - ORDER BY: FROM clause 뒤에 작성하여 하나 이상의 컬럼을 기준으로 결과를 오름차순(ASC, default) 또는 내림차순(DESC)으로 정렬한다.
+  - DISTINCT: SELECT 키워드 바로 뒤에 작성하여 조회 결과에서 중복된 레코드를 제거한다.
+  - WHERE: FROM 구문 뒤에 위치하여 비교연산자 및 논리연산자를 사용하는 구문과 함께 조건문과 같은 역할을 한다.
+    - 연산자(operator)
+      - 비교 연산자(comparison operator)
+        - =, >=, <=, !=
+        - IS, LIKE, IN
+        - BETWEEN ... AND ...
+      - 논리 연산자(logical operator)
+        - AND(&&)
+        - OR(||)
+        - NOT(!)
+      - wildcard characters
+        - '%': 0개 이상의 문자열과 일치하는지 확인
+        - '_': 단일문자와 일치하는지 확인
+  - LIMIT: 조회하는 최대 레코드 수를 지정
+    - LIMIT A, B / LIMIT B OFFSET A
+  - GROUP BY: FROM 및 WHERE 절 뒤에 배치하여 필드를 그룹화(요약본을 생성)한다. 집계 함수와 함께 사용된다.
+    - 집계 함수(Aggregation Functions): 값에 대한 계산을 수행하고 단일한 값을 반환하는 함수.(SUM, AVG, MAX, MIN, COUNT)
+    - HAVING: 집계 항목에 대한 세부 조건을 지정. 주로 GROUP BY와 함께 사용되며 GROUP BY가 없을경우 WHERE 처럼 동작한다.
+      - WHERE vs HAVING
+        - WHERE
+          - 목적: 개별 행에 대한 조건을 지정하여 데이터를 필터링
+          - 적용 시점: FROM과 JOIN 등의 단계 이후, GROUP BY 이전에 적용된다.
+          - 사용 예: 특정 조건을 만족하는 행 만을 대상으로 집계나 정렬 등의 작업을 수행할 때 사용
+        - HAVING
+          - 목적: GROUP BY에 의해 그룹화된 결과에 대해 조건을 지정하여 그룹을 필터링
+          - 적용 시점: 그룹핑 및 집계 함수 적용 후에 조건을 평가
+          - 사용 예: 그룹별 집계 결과에 조건을 걸어 특정 그룹만을 선택할 때 사용
+  - SELECT statement 실행 순서: FROM - WHERE - GROUP BY - HAVING - SELECT - ORDER BY - LIMIT
+- DDL syntax
+  - CREATE TABLE 
+    - 데이터 타입
+      - NULL
+      - TEXT
+      - INTEGER
+      - BLOB: 이미지, 동영상, 문서 등의 바이너리 데이터
+      - REAL: 부동 소수점
+    - 제약 조건(Contraints): 테이블의 필드에 적용되는 규칙 또는 제한사항. 데이터의 무결성을 유지하고 데이터베이스의 일관성을 보장한다.
+      - PRIMARY KEY: 해당 필드를 기본 키로 지정(INTEGER 타입만 적용 가능)
+      - NOT NULL: 해당 필드에서 NULL값 비허용
+      - FOREIGN KEY: 다른 테이블과의 외래 키 관계를 정의
+    - AUTOINCREMENT keyword: 필드의 자동 증가를 나타내는 특수한 키워드
+      - 주로 PRIMARY KEY 필드에 적용한다.
+      - INTEGER PRIMARY KEY AUTOINCREMENT가 작성된 필드는 항상 새로운 레코드에 대해 이전 최대 값보다 큰 값을 할당한다.
+      - 삭제된 값은 무시되며 재사용할수 없게 된다.
+  - ALTER TABLE(테이블 및 필드 조작)
+    - ADD COLUMN: 필드 추가
+      - DEFAULT: 디폴트 값 설정 가능
+    - RENAME COLUMN: 필드 이름 변경
+      - currnent_name TO new_name;
+    - DROP COLUMN: 필드 삭제
+    - RENAME TO: 테이블 이름 변경
+  - DROP TABLE
+- DML syntax
+  - INSERT
+  - UPDATE
+    - SET clause 다음에 수정할 필드와 새 값을 지정
+    - WHERE clause 에서 수정할 레코드를 지정하는 조건을 작성
+    - WHERE clause를 작성하지 않을 경우 모든 레코드를 수정
+  - DELETE
+    - DELETE FROM ~ WHERE ~
+  - JOIN: 들 이상의 테이블에서 데이터를 검색(데이터의 물리적 변환 없음)
+    - ON: JOIN할 레코드의 조건을 작성
+    - INNER JOIN: 두 테이블에서 값이 일치하는 레코드에 대해서만 결과를 반환
+    - LEFT JOIN: 오른쪽 테이블의 일치하는 레코드와 왼쪽 테이블의 모든 레코드를 반환. 매칭되는 레코드가 없을경우 NULL을 표시
+- Many to one realtionship
+  - 관계(relationship): 데이터베이스 내 여러 테이블 간의 논리적인 연결 관계
+    - 1:1(one to one): 한 테이블의 레코드가 다른 테이블의 한 레코드가 연결되어 있음
+    - N:1(many to one): 여러 개의 레코드(0개 이상)가 하나의 레코드와 연결됨
+    - N:M(many to many): 여러 레코드가 다른 여러 레코드와 상호 연결됨. 보통 중간 테이블을 사용하여 구현한다. 
+  - foriegn key field: ForeignKey(to, on_delete): 한 모델이 다른 모델을 참조하는 관계를 설정하는 필드
+    - to: 참조하는 모델 class 명(N:1에서 1)
+    - on_delete 속성: 외래 키가 참조하는 객체가 사라졌을 때, 외래 키를 가진 객체를 어떻게 처리할 지를 정의하는 설정(데이터 무결성)
+      - CASCADE: 참조된 객체가 삭제될 때 이를 참조하는 모든 객체도 삭제되도록 지정
+      - PROTECT: 삭제하려는 부모객체에 자식객체가 존재한다면 해당 부모 객체를 삭제하지 못하도록 지정
+      - SET_NULL: 부모 객체가 삭제되면, 해당 필드에 값이 NULL이 저장되도록 지정 (단, ForeignKey 설정이 null = True 여야 한다.)
+    - 만들어지는 필드는 작성한 foreign key 이름 + _id로 생성된다. (foriegn key이름에 _id를 붙일 필요가 없음 + 외래 키 이름은 단수형으로 생성하기)
+    - 외래 키 필드는 bigint 자료형으로 생성된다.(64비트 정수형)
+    - 참조: 직접 대상의 정보를 저장하고 필요할 때 활용하는 것
+    - 역참조: 나를 참조하는 것을 역으로 조회하는 것
+      - 구조: ```article.comment_set.all()```
+        - article(모델 인스턴스): models.py에 정의된 모델 클래스로 생성된 실제 데이터. 참조 가능한 필드가 없는 모델 클래스의 인스턴스를 사용해야 한다. (N:1에서의 1에 해당)
+        - comment_set(related manager, 역참조 이름): 역참조 시 사용하는 매니저. 이 매니저를 통해 QuerySet API를 사용할 수 있게 된다. 모델 클래스명_set이 기본 값이며 django에서 자동으로 생성해준다.
+        - ```all()```(QuerySet API): 데이터를 가져오기 위한 쿼리 집합을 만드는 인터페이스. SQL 쿼리를 직접 사용하지 않고도 db를 사용할 수 있다.
