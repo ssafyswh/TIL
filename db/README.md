@@ -110,3 +110,33 @@ SQL(Structure Query Language): 테이블의 형태로 구조화된 관계형 데
         - article(모델 인스턴스): models.py에 정의된 모델 클래스로 생성된 실제 데이터. 참조 가능한 필드가 없는 모델 클래스의 인스턴스를 사용해야 한다. (N:1에서의 1에 해당)
         - comment_set(related manager, 역참조 이름): 역참조 시 사용하는 매니저. 이 매니저를 통해 QuerySet API를 사용할 수 있게 된다. 모델 클래스명_set이 기본 값이며 django에서 자동으로 생성해준다.
         - ```all()```(QuerySet API): 데이터를 가져오기 위한 쿼리 집합을 만드는 인터페이스. SQL 쿼리를 직접 사용하지 않고도 db를 사용할 수 있다.
+  - 모델 관계 설정
+    - 예시: user-article
+    - User 모델을 직접 Article에서 import해서 사용하는 것이 아니라 외래 키로 정의한다.
+    - User 모델 참조하기
+      - settings.AUTH_USER_MODEL
+        - settings.py에서 정의된 AUTH_USER_MODEL 설정 값을 가져온다.
+        - 반환 값: 'accounts.User'(string)
+        - models.py에서 유저 모델을 참조할 경우 사용
+      - get_user_model():
+        - 현재 settings.py에 정의되어 활성화된 User 모델을 가져온다.
+        - 반환 값: User Object
+        - models.py를 제외한 다른 모든 위치에서 사용
+  - View decorator: View 함수의 동작을 수정하거나 추가 기능을 제공하는 데 사용하는 파이썬 데코레이터. 로그인 여부, 권한 검사, http 요청 방식 제한 등을 다룬다.      
+    - allowed http methods: view가 허용하는 http 요청 방식을 제한
+      - ```require_http_methods["METHOD1", "METHOD2", ...]```: 지정된 http method만 허용
+      - ```require_safe()```: GET과 HEAD만 허용
+      - ```require_POST()```: POST만 허용
+      - 허용되지 않은 method일 경우 405 (method not allowed) 오류를 반환한다.
+    - conditional view processing: 클라이언트가 보낸 조건을 확인한 후, 조건에 따른 응답을 처리
+    - gzip compression: 서버에서 응답 데이터를 압축해서 전송
+  - ERD(Entity-Relationship Diagram): 데이터베이스의 구조를 시각적으로 표현하는 도구
+    - 구성 요소
+      - 엔티티(entity): 데이터베이스에 저장되는 객체나 개념. 데이터베이스에서 주로 테이블로 표현된다.
+      - 속성(attribute): 엔티티가 갖는 고유한 데이터 항목. 테이블의 컬럼으로 표현된다.
+      - 관계(relationship): 엔티티 간의 연관성. 테이블 간의 연결된 선으로 표현된다.
+    - cardinality: 한 엔티티와 다른 엔티티 간의 수적 관계를 나타내는 표현.(one-to-one, many-to-one, many-to-many) 관계를 표현하는 선의 끝부분에 표시되며 일반적으로 숫자나 기호(crow's foot)로 표현된다.
+    - 중요성
+      - 데이터베이스 설계의 핵심 도구: 엔티티, 속성, 관계를 명확히 정의함으로써 논리적 데이터 구조를 시각적으로 표현하고 복잡한 비즈니스 로직을 단순하고 직관적인 다이어그램을 정리한다. 중복 데이터를 제거하고, 효율적인 저장 구조를 만들 수 있다.
+      - 시각적 모델링으로 효과적인 의사소통 지원: 개발자, 기획자, 디자이너 등 다양한 직군이 ERD를 활용해 협업할 수 있다. 요구사항 분석 단계에서 누락된 기능이나 관계를 빠르게 파악 가능하고 비전문가에게도 시스템 구조를 쉽게 설명할 수 있다.
+      - 실제 시스템 개발 전 데이터 구조 최적화: 사전에 데이터 흐름과 연관 관계를 명확히 분석해 불필요한 관계나 비효율적인 설계를 방지할 수 있다. 시스템 개발 전에 ERD를 작성함으로써, 이후 db 구축 단계에서 중대한 구조적 오류를 줄이는 데 효과적이고 변경이나 유지보수 시에도 ERD를 기반으로 안정적으로 수정할 수 있다.
