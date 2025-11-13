@@ -688,3 +688,34 @@ ORM(Object-Relational-Mapping): 객체 지향 프로그래밍 언어의 객체�
 
 - 미디어 파일(Media files): 사용자가 웹사이트를 통해 직접 업로드하는 **동적** 파일
   - ImageField(): 이미지 파일을 업로드하기 위해 사용하는 django 모델 필드. 이미지 파일 자체를 데이터베이스에 저장하는 것이 아니라 upload_to 경로를 기준으로 한 이미지 파일의 경로(문자열)만 저장되고, 실제 파일은 서버의 특정 폴더(MEDIA_ROOT)에 저장한다.
+
+- API(application programming interface): 두 소프트웨어가 서로 통신할수 있게 하는 메커니즘
+- REST(Representational State Transfer): API 서버를 개발하기 위한 일종의 소프트웨어 설계 방법론.(엄격한 규칙은 아니다.)
+  - REST 원리: 자원을 정의하고 자원에 대한 주소를 지정하는 전반적인 방법을 서술. 이 원리를 따르는 시스템을 RESTful하다고 한다. 표준화된 통신 구조를 제공함으로써 서로 다른 기술 스택 간에도 연동이 가능하게 한다.
+    - 자원의 식별(URI, Uniform Resource Identifier): 인터넷에서 리소스를 식별하는 문자열
+      - URL(Uniform Resource Locator, 통합 자원 위치): 웹에서 주어진 리소스의 주소, 네트워크 상에 리소스가 어디 있는지를 알려주기 위한 약속
+        - 구조: 'Schema://Domain name :Port /Path to file ?Parameters #Anchor'
+        - Schema(or Protocol): 브라우저가 리소스를 요청하는 데 사용해야 하는 규약. url의 가장 첫 부분에 브라우저가 어떤 규약을 사용하는지 나타내며 기본적으로 웹은 http(s)를 요구한다.
+        - Domain name: 요청 중인 웹 서버. IP주소를 사용하는 것도 가능하지만, 사용자의 편의성을 위해 도메인 네임을 사용한다.
+        - Port: 웹 서버의 리소스에 접근하는데 사용되는 기술적인 문(gate). http 프로토콜의 표준 포트는 http-80, https-443이다. 표준 포트만 작성하는 경우 생략이 가능하다.
+        - Path: 웹 서버의 리소스 경로. 이전에는 실제 파일이 위치한 물리적 위치를 나타냈으나, 현재는 실제 위치가 아닌 추상화된 형태의 구조를 표현한다.
+        - Parameters: 웹 서버에 제공하는 추가적인 데이터. '&'로 구분되는 key-value 쌍 목록으로 나타낸다.
+        - Anchor: 일종의 북마크를 나타내며 브라우저에 해당 지점에 있는 컨텐츠를 표시한다.
+    - 자원의 행위(HTTP request method): 리소스에 대한 행위. 수행하고자 하는 동작을 정의한다.
+      - methods
+        - GET: 서버에 리소스의 표현을 요청. 데이터 검색만 가능하다.
+        - POST: 데이터를 지정된 리소스에 제출. 서버의 상태를 변경한다.
+        - PUT: 요청한 주소의 리소스를 수정.
+        - PATCH: 리소스의 일부 필드만 수정
+        - DELETE: 지정된 리소스를 삭제.
+      - HTTP response status codes: 특정 http 요청이 성공적으로 완료 되었는지 여부를 나타낸다.
+        - informational responses(100-199): 요청을 계속 진행 중이라는 중간 응답.
+        - successful response(200-299): 요청이 정상적으로 처리되었음을 의미.
+        - redirection message(300-399): 요청한 리소스가 다른 위치로 옮겨졌을 때 사용.
+        - client error responses(400-499): 클라이언트 요청에 문제가 있을 때 반환.
+        - server error responses(500-599): 서버 내부의 문제로 요청을 처리하지 못했을 때 사용.
+    - 자원의 표현(JSON data): 궁극적으로 표현되는 데이터 결과. 서버는 페이지 뿐 아니라 다양한 데이터 타입을 응답하는 것이 가능하지만, REST API는 json타입으로 응답하는 것을 권장한다.
+- Django REST framework(DRF): django에서 restful api 서버를 쉽게 구축할 수 있도록 도와주는 오픈소스 라이브러리
+  - Serialization(직렬화): 여러 시스템에서 활용하기 위해 데이터 구조나 객체 상태를 재구성할 수 있는 포맷으로 변환하는 과정. 즉, 어떠한 언어나 환경에서도 다시 쉽게 사용할 수 있는 포맷으로 변환하는 과정이다.
+    - Serializer: serialization을 진행하여 serialized data를 반환해주는 클래스
+    - ModelSerializer: django 모델과 연결된 serializer 클래스. 일반 serializer과 달리 사용자 입력 데이터를 받아 자동으로 모델 필드에 맞추어 serialization을 진행한다.
