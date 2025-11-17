@@ -1,0 +1,39 @@
+DOM(Document Object Model): 웹페이지(document)를 구조화된 객체로 제공하여 프로그래밍 언어가 페이지 구조에 접근할 수 있는 방법을 제공.
+DOM API: 다른 프로그래밍 언어가 웹페이지에 접근 및 조작할수 있도록 페이지 요소들을 객체 형태로 제공하며 관련 메서드도 함께 제공한다.
+- document 객체: 웹페이지를 나타내는 DOM 트리의 최상위 객체. HTML문서의 모든 콘텐츠에 접근하고 조작할 수 있는 진입점이 된다.
+- DOM에서 모든 요소, 속성, 텍스트는 하나의 객체이며, document 객체의 하위 객체로 구성된다.
+- DOM tree: html 태그를 나타내는 요소들의 node는 문서의 구조를 결정한다. 이들은 다시 자식 노드를 가질 수 있다. (객체 간 상속 구조가 존재한다)
+- 웹페이지를 동적으로 만들기 == 웹페이지를 조작하기
+  - 조작하고자 하는 요소를 선택(혹은 탐색)하고 선택된 요소의 콘텐츠 또는 속성을 조작한다.
+  - 선택 메서드
+    - document.querySelector(selector)
+      - 제공한 선택자와 일치하는 첫번째 요소를 한개 선택한다.
+      - 제공한 선택자를 만족하는 첫번째 요소 객체를 반환한다. (없다면 null을 반환)
+    - document.querySelectorAll(selector)
+      - 제공한 선택자와 일치하는 여러 요소를 선택한다.
+      - 제공한 선택자를 만족하는 nodelist를 반환한다.
+  - 조작 메서드
+    - 속성 조작
+      - 클래스 속성(classList property) 조작 메서드: 요소의 클래스 목록을 DOMTokenList(유사 배열) 형태로 반환
+        - element.classList.add(): 지정한 클래스 값을 추가
+        - element.classList.remove(): 지정한 클래스 값을 제거
+        - element.classList.toggle(): 클래스가 존재한다면 제거하고 false를 반환(존재하지 않으면 클래스를 추가하고 True를 반환)
+      - 일반 속성 조작 메서드
+        - Element.getAttribute(): 해당 요소에 지정된 값을 반환
+        - Element.setAttribute(): 지정된 요소의 속성 값을 설정. 속성이 이미 있다면 기존 값을 갱신한다.
+        - Element.removeAttribute(): 요소에서 지정된 이름을 가진 속성을 제거한다.
+      - HTML 콘텐츠 조작
+      - DOM 요소 조작 메서드
+        - document.createElement(tagName): 작성한 tagname의 html 요소를 생성하여 반환
+        - Node.appendChild(): 한 노드를 특정 부모 노드의 자식 노드리스트 중 마지막 자식으로 삽입 후 추가된 Node 객체를 반환한다.
+        - Node.removeChild(): DOM에서 자식 노드를 제거 후 제거된 노드를 반환.
+  - DOM 용어 정리
+    - Node: DOM의 기본 구성 단위
+    - NodeList: DOM 메서드를 사용해 선택한 Node의 목록
+    - Element: DOM 트리에서 HTML 요소를 나타내는 특별한 유형의 Node
+    - Parsing: 브라우저가 문자열을 해석하여 DOM Tree로 만드는 과정(구문 분석, 해석)
+    - var: ES6 이전에 변수 선언에 사용했던 키워드
+      - 함수 스코프(function scope): 함수의 중괄호 내부를 가리키고, 함수 스코프를 갖는 변수는 함수 바깥에서 접근할 수 없다.
+      - 호이스팅(hoisting): 변수 선언문이 코드의 최상단으로 끌어올려지는 듯한 현상. var로 선언된 변수는 선언 위치와 관계없이 스코프 최상단에서 선언된 것처럼 동작하며, 할당 전가지는 undefined 값을 갖는다.
+        - 허강사님 부가설명: **런타임 이전에** 선언문이 코드의 최상단으로 끌어올려지는 듯한 현상.
+        - ```var a = 1;```: ```var a;```라는 변수선언문과 ```a = 1;```라는 변수할당문이 합쳐진 코드.
