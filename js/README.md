@@ -44,7 +44,7 @@ DOM API: 다른 프로그래밍 언어가 웹페이지에 접근 및 조작할�
     - 문자열과 + 연산시, 숫자가 문자열로 자동 형 변환되어 연결된다.
     - 정수와 실수 구분이 없고, 모든 숫자를 단일 타입으로 처리한다.
   - String: 텍스트 데이터
-    - template lieterals( like f-string in python): 내장된 표현식을 허용하는 향상된 문자열 작성 방식 `${ }` 
+    - template lieterals(like f-string in python): 내장된 표현식을 허용하는 향상된 문자열 작성 방식 `${ }` 
   - null: 프로그래머가 의도적으로 값이 없음을 표현
   - undefined: 시스템이나 js 엔진이 값이 할당되지 않음을 나타낼 때 사용
   - boolean: 참과 거짓을 나타내는 논리적인 자료형(true, false)
@@ -78,3 +78,12 @@ DOM API: 다른 프로그래밍 언어가 웹페이지에 접근 및 조작할�
 
 함수
 - 참조 자료형에 속하며 모든 함수는 function object
+
+
+이벤트
+- 웹페이지 상에서 무언가 일어났다는 신호 또는 사건
+- 웹에서의 모든 상호작용은 이벤트와 함께 한다.
+- event object
+  - DOM에서 이벤트가 발생하면, 브라우저는 해당 이벤트에 관한 정보를 담은 event object를 자동으로 생성하고 해당 event는 연결된 이벤트 처리기(event handler)에 의해 처리된다.
+  - event handler: 특정 이벤트가 발생했을 때 실행되는 (콜백)함수
+  - .addEventListener(): 특정 DOM요소에 지정한 이벤트가 발생했을 때 실행할 이벤트 핸들러를 등록하는 메서드
