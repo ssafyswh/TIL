@@ -181,6 +181,7 @@ Vite: Vue 프론트엔드 개발을 위한 빌드 도구
 
 NPM(Node Package Manger); Node.js의 기본 패키지 관리자
 - 개발자들이 만든 JS 패키지를 모아놓은 거대한 저장소이자, 그 패키지들을 쉽게 설치하고 관리할 수 있게 해주는 명령어 도구. 프로젝트에 사용된 모든 패키지들의 목록과 버전을 package.json 파일에 기록하여, 다른 사람과 협업하거나 다른 환경에서 작업할 때도 동일한 개발 환경을 쉽게 구축할 수 있도록 도와준다.
+- Node JS: Chrome V8 JavaScript 엔진을 기반으로 하는 Server-Side 실행 환경. 브라우저 안에서만 동작할 수 있었던 js를 브라우저가 아닌 서버 측에서도 실행할 수 있게 한다. 즉, 프론트렌드와 백엔드에서 동일한 언어로 개발할 수 있다.
 
 모듈(Module): 프로그램을 구성하는 독립적인 코드블록(ex: .js파일)
 - 애플리케이션이 점점 더 발전함에 따라 처리해야 하는 JS 모듈의 개수도 극적으로 증가하게 됐고, 성능 병목 현상이 발생하고 모듈 간의 의존성이 깊어지면서 특정한 곳에서 발생한 문제가 어떤 모듈 간의 문제인지 파악하기가 어려워졌다.
@@ -239,3 +240,47 @@ Virtual DOM: 가상의 DOM을 메모리에 저장하고 실제 DOM과 동기화�
 - Vue의 ref()와 Lifecycle Hooks 함수를 사용해 간접적으로 접근하여 조작할 것을 권고 - 성능과 코드의 예측 가능성을 극대화하기 위해서
 - 이것을 위해 사용하는 것이 가상 DOM이다.
 - 실제 DOM의 모습을 그대로 복사한 메모리상에만 존재하는 가상 설계도로, 데이터가 변경되면 Vue는 실제 DOM을 바로 건드리지 않고 이 가상 설계도 위에서 변경 사항을 미리 시뮬레이션하고 차이점을 계산하고 계산된 최소 변경 사항만 실제 DOM에 딱 한번만 적용하여 불필요한 렌더링을 줄이고 성능을 향상시킨다.
+
+Props: 부모 컴포넌트로부터 자식 컴포넌트로 데이터를 전달하는데 사용되는 사용자 지정 특성
+- 데이터는 한 방향(부모->자식)으로만 흐르며, 자식 컴포넌트는 전달받은 props를 직접 수정하는 것은 불가능하다.(읽기 전용)
+- 부모 컴포넌트가 업데이트될 때마다 이를 사용하는 자식 컴포넌트의 모든 props가 최신 값으로 업데이트된다.
+- one-way data flow: 모든 props는 자식 속성과 부모 속성 사이에 하향식 단방향 바인딩(one-way-down binding)을 형성
+- Props 선언하기
+  - App > Parent > ParentChild 구조를 가정
+  - 각 부모 컴포넌트에서 자식 컴포넌트를 script에서 import
+  - 부모 컴포넌트에서 자식 컴포넌트로 보낼 props는 다음과 같이 작성한다.</br> ```props-name="message"``` 각각 props 이름, props 값이 된다. 
+  - 부모 컴포넌트에서 내려 보낸 props를 사용하기 위해선 props 선언이 필요하다.
+    - 문자열 배열을 사용한 방식: ```defineProps(['propsName'])``` 
+    - 객체를 사용한 선언 : ```defineProps({ myMsg: String })``` 객체를 사용할 경우 해당 데이터 타입에 맞는 생성자 함수를 각 속성의 값으로 넣어야 한다. 일반적으로는 객체를 사용한 선언 방식을 권장한다.
+  - 선언 시 부모 템플릿에서는 케밥 케이스를, 자식 스크립트에서는 카멜 케이스를 사용한다.
+- props 명 앞에 콜론(:)을 붙여 동적 할당도 가능하다.<br>
+```vue
+<!-- Parent.vue -->
+<template>
+  <div>
+    <ParentChild :dynamic-props="name"/>
+  </div>
+</tempalte>
+<script setup>
+  import { ref } from 'vue'
+  const name = ref('Alice')
+</script>
+
+<!-- ParentChild.vue -->
+<template>
+  <div>
+    <p> {{ dynamicProps }} </p>
+  </div>
+</template>
+<script setup>
+  defineProps({
+    dynamicProps: String,
+  })
+</script>
+```
+
+Emit
+- $emit(event, ...args): 자식 컴포넌트가 이벤트를 발생시켜 부모 컴포넌트로 데이터를 전달하는 메서드
+  - event: 커스텀 이벤트 이흠
+  - args: 전달할 필요가 있는 추가 인자
+  - 실무에서는 가급적 props만을 사용하는 것을 원칙으로 한다. (데이터의 흐름을 일률적으로)
