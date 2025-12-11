@@ -284,3 +284,101 @@ Emit
   - event: 커스텀 이벤트 이흠
   - args: 전달할 필요가 있는 추가 인자
   - 실무에서는 가급적 props만을 사용하는 것을 원칙으로 한다. (데이터의 흐름을 일률적으로)
+
+Routing
+- 네트워크에서 경로를 선택하는 프로세스
+- server-side rendering에서 routing은 서버 측에서 수행한다. 서버는 사용자가 방문한 URL 경로를 기반으로 응답을 전송하고, 링크를 클릭하면 브라우저는 서버로부터 HTML 응답을 수신하고 새 HTML로 전체 페이지를 다시 로드한다.
+- client-side rendering에서 routing은 클라이언트(브라우저) 측에서 수행한다. 클라이언트 측 javascript가 새 데이터를 동적으로 가져와 전체 페이지를 다시 로드하지 않는다.
+- SPA(single page apllication)에서 routing이 없다면
+  - 유저가 URL을 통한 페이지의 변화를 감지할 수 없다.
+  - 페이지가 무엇을 렌더링 중인지에 대한 상태를 알 수 없다,
+    - URL이 1개이기 때문에 새로고침 시 처음 페이지로 돌아감
+    - 링크를 공유할 시 첫 페이지만 공유 가능
+  - 브라우저의 뒤로가기 기능을 사용할 수 없다.
+  - 페이지는 1개지만 주소에 따라 여러 컴포넌트를 새로 렌더링하여 마치 여러 페이지를 사용하는 것처럼 보이도록 해야한다.
+
+Vue router
+- vue.js의 공식 라우팅 라이브러리로 vue에서 만든 SPA에서 페이지 이동 기능을 구현할 때 사용된다.
+- 페이지를 새로고침하지 않는 링크를 만드는 \<router-link\>와 현재 URL에 맞는 컴포넌트를 보여주는 \<router-view\>라는 핵심 컴포넌트를 제공한다.
+- 어떤 URL 경로에 어떤 컴포넌트를 보여줄지 정의하기만 하면, Vue Router가 연결해준다.
+- vue router의 적용에 따른 vue 프로젝트 구조 변화
+  - App.vue
+    - RouterLink는 페이지를 다시 로드하지 않고 URL을 변경하여 URL 생성 및 관련 로직을 처리한다.
+    - RouterView는 RouterLink URL에 해당하는 컴포넌트를 표시하고 원하는 곳에 배치하여 컴포넌트를 레이아웃에 표시할 수 있다.
+  - router directory
+    - router/index.js에 라우팅에 관련된 정보 및 설정이 작성된다.
+    - 웹사이트 내 여러 페이지들의 주소 목록을 작성하고 각 주소로 접속했을 때, 어떤 Vue 컴포넌트를 보여줄지 연결한다.
+  - views directory
+    - RouterView 위치에 렌더링할 컴포넌트를 배치한다.
+    - 기존 components 폴더와 기능적으로 다른 것은 없으나, 단순 분류의 의미로 구성된다. 일반 컴포넌트와 구분짓기 위해 이름을 View로 끝나도록 작성하는 것을 권장한다.
+
+State management
+- Vue의 컴포넌트 구조
+  - 상태(State): 앱 구동에 필요한 기본 데이터
+  - 뷰(View): 상태를 선언적으로 매핑하여 시각화
+  - 기능(Actions): 뷰에서 사용자 입력에 대해 반응적으로 상태를 변경할 수 있게 정의된 동작
+  - 각 요소들은 "상태 -> 뷰 -> 기능 -> 상태"의 단방향 데이터 흐름으로 상호작용한다.
+- 상태 관리의 단순성(단방향 데이터 흐름)이 무너지는 시점 -> 여러 컴포넌트가 상태를 공유할 때
+  - 여러 뷰가 동일한 상태에 종속되는 경우
+    -  공유 상태를 공통 조상 컴포넌트로 끌어올린 후, props로 여러 컴포넌트에 전달
+    -  컴포넌트 계층 구조가 깊어질수록 이 방식은 비효율적이고 관리가 어려워진다.
+  - 서로 다른 뷰의 기능이 동일한 상태를 변경시켜야 하는 경우
+    - emit된 이벤트를 통해 상태의 여러 복사본의 변경 및 동기화
+    - 마찬가지로 관리의 패턴이 깨지기 쉽고 유지 관리하기 어렵다.
+  - 해결책: 각 컴포넌트의 공유 상태를 추출하여, 전역에서 참조할 수 있는 저장소에서 관리 -> Pinia
+- Pinia: Vue의 공식 상태 관리 라이브러리. 컴포넌트 트리는 하나의 큰 View가 되고 모든 컴포넌트는 트리 계층 구조에 관계없이 상태에 접근하거나 기능을 사용할 수 있다.
+  - Vite 프로젝트 빌드 시 Pinia 라이브러리를 추가하여 사용 가능하다.
+  - 구성 요소
+    - 예시 코드<br>
+    ```js
+    import { ref, computed } from 'vue'
+    import { defineStore } from 'pinia'
+    export const useCounterStore = defineStore('counter', () => {
+      const count = ref(0)
+      const doubleCount = compute(() => count.value * 2)
+      function increment() {
+        count.value++
+      }
+      return { count, doubleCount, increment }
+    }) 
+    ```
+    - store
+      - 공통 데이터를 관리하는 중앙 저장소
+      - 모든 컴포넌트가 공유하는 상태이며, 기능이 작성된다.
+      - defineStore()의 반환 값(store)을 담는 변수의 이름은 use...Store 패턴을 사용하는 것이 권장된다.
+      - defineStore()의 첫번째 인자는 애플리케이션 전체에 걸쳐 사용하는 고유 ID가 된다.
+    - state
+      - 중앙 저장소에 저장되는 반응형 상태(데이터)
+      - 해당 값(count)를 변경하면, 이 데이터를 사용하고 있는 모든 컴포넌트의 마치 반응형 변수와 같이 작동한다. (자동 업데이트)
+    - getters
+      - computed()와 같은 역할을 하는 계산된 값. state를 기반으로 파생된 값을 정의한다.
+    - actions
+      - 메서드와 같은 역할을 하며, state를 변경한다.
+    - 반환 값
+      - pinia의 상태들을 사용하기 위해서는 반드시 반환 값이 존재해야 한다.
+      - store에서는 공유하지 않는 private한 상태 속성을 갖지 않는다.
+    - plugin
+      - 애플리케이션의 상태 관리에 필요한 추가 기능을 제공하거나 확장하는 도구나 모듈
+      - 애플리케이션의 상태 관리를 더욱 간편하고 유연하게 만들어주며, 패키지 매니저로 설치 이후 별도 설정을 통해 추가된다.
+
+인증 정책 설정 (DRF 공식 문서 참고할 것)
+- 전역 설정
+  - 프로젝트 전체에 적용되는 기본 인증 방식을 정의
+  - DEFAULT_AUTHENTICATION_CLASSES를 사용한다. 
+- View 함수 별 설정
+  - 개별 view 함수에 대해 authentication_classes 데코레이터를 사용한다.
+- DRF가 제공하는 인증 체계
+  - BasicAuthentication: 요청마다 사용자 이름과 비밀번호를 base64로 인코딩하여 Authorization 헤더에 담아 보내는 방식
+  - TokenAuthentication: 로그인 시 발급받은 고유한 토큰을 Authorization 헤더에 담아 요청함으로써 사용자를 인증하는 방식
+  - SessionAuthentication: django의 기본 세션 시스템을 활용하여, 브라우저가 보내는 sessioned 쿠키를 통해 사용자를 인증하는 방식
+  - RemoteUserAuthentication: 웹 서버 등 외부 시스템이 이미 처리한 인증결과를 신뢰하고, 전달받은 사용자 이름으로 사용자를 인증하는 방식
+  - 기본 데스크톱 및 모바일 클라리언트와 같은 클라이언트-서버 설정에는 TokenAuthentication 방식이 적합하다.
+
+CORS Policy
+- 기본적으로 웹 브라우저는 같은 출처에서만 요청하는 것을 허용하고, 다른 출처로의 요청은 보안상의 이유로 차단한다. 이는 SOP(Same-Origin Policy, 동일 출처 정책)에 의해 다른 출처의 리소스와 상호작용 하는 것을 제한하는 것이다.
+- SOP: 어떤 출처(origin)에서 불러온 문서나 스크립트가 다른 출처에서 불러온 리소스와 상호 작용하는 것을 제한하는 보안 방식. 사용자의 개인정보와 데이터의 보안을 보호하고 잠재적인 보안 위협을 방지한다.
+  - Protocol(Scheme), Host, Port가 모두 일치하는 경우에만 same-origin으로 간주한다.
+- CORS(Cross-Origin Resource Sharing, 교차 출처 리소스 공유): 특정 출처에서 실행 중인 웹 애플리케이션이 다른 출처의 리소스에 접근할 수 있는 권한을 부여하도록 브라우저에서 알려주는 체제.
+  - CORS Policy: 다른 출처에서 온 리소스를 공유하는 것에 대한 정책으로, 서버에서 설정된다(CORS Header). 브라우저는 해당 정책을 확인하여 요청이 허용되는지의 여부를 결정한다.
+  - 다른 출처의 리소스를 불러오려면 그 출처에서 올바른 CORS header를 포함한 응답을 반환해야 한다.
+  - django-cors-headers: 손쉽게 응답 객체에 CORS header를 추가해주는 라이브러리
